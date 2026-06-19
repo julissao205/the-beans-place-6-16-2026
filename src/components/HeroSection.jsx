@@ -133,18 +133,18 @@ export default function HeroSection() {
                     <br />
                     <motion.span
                         vairants={wordVariant}
-                        classNmae="muted"
+                        className="muted"
                         style={{ dispaly: "inline-block" }}>
                         FOR COFFEE
                     </motion.span>
                     <br />
-                    <motion.sapan variants={wordVariant} style={{ display: "inline-block" }}>
+                    <motion.span variants={wordVariant} style={{ display: "inline-block" }}>
                         BREWING
-                    </motion.sapan>
+                    </motion.span>
                 </motion.h1>
 
                 <motion.p
-                    classNmae="lead"
+                    className="lead"
                     style={{ margin: 18 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
