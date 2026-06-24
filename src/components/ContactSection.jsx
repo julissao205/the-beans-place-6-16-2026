@@ -132,7 +132,6 @@
 //   </div>
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
-
 import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import ScrollReveal from "./ui/ScrollReveal";
@@ -284,15 +283,29 @@ function ContactFormInline() {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        subject: "",
-        message: ""
+        phone: "",
+        category: "general",
+        preferredContact: "email",
+        message: "",
+        subscribe: false
     });
     const [status, setStatus] = useState(null); // null | 'sending' | 'sent' | 'error'
     const [touched, setTouched] = useState({});
 
+    const categories = [
+        { value: "general", label: "General Inquiry" },
+        { value: "orders", label: "Bulk Orders" },
+        { value: "events", label: "Event Catering" },
+        { value: "partnership", label: "Partnership" },
+        { value: "feedback", label: "Feedback" }
+    ];
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value
+        }));
     };
 
     const handleBlur = (e) => {
@@ -301,7 +314,7 @@ function ContactFormInline() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setTouched({ name: true, email: true, subject: true, message: true });
+        setTouched({ name: true, email: true, message: true, phone: true });
 
         if (!formData.name || !formData.email || !formData.message) return;
 
@@ -309,7 +322,15 @@ function ContactFormInline() {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1200));
             setStatus("sent");
-            setFormData({ name: "", email: "", subject: "", message: "" });
+            setFormData({
+                name: "",
+                email: "",
+                phone: "",
+                category: "general",
+                preferredContact: "email",
+                message: "",
+                subscribe: false
+            });
             setTouched({});
             setTimeout(() => setStatus(null), 4000);
         } catch {
@@ -327,14 +348,14 @@ function ContactFormInline() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}>
             {/* Form header */}
-            <div className="mb-6">
+            <div className="mb-8">
                 <h3 className="contact-form-title">Send a Message</h3>
                 <p className="contact-form-subtitle">
-                    We'd love to hear from you. Fill out the form and we'll get back within 24
-                    hours.
+                    We'd love to hear from you. Fill out the form and we'll respond within 24 hours.
                 </p>
             </div>
 
+            {/* Name and Email Row */}
             <div className="contact-form-grid">
                 <Input
                     label="Your Name"
@@ -359,17 +380,63 @@ function ContactFormInline() {
                 />
             </div>
 
-            <div className="mt-4">
+            {/* Phone and Category Row */}
+            <div className="contact-form-grid mt-4">
                 <Input
-                    label="Subject"
-                    id="contact-subject"
-                    name="subject"
-                    placeholder="What's this about?"
-                    value={formData.subject}
+                    label="Phone Number"
+                    id="contact-phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="(303) 555-0000"
+                    value={formData.phone}
                     onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.phone && !formData.phone ? "Phone is required" : undefined}
                 />
+                <div className="contact-form-field">
+                    <label htmlFor="contact-category" className="contact-form-label">
+                        Inquiry Category
+                    </label>
+                    <select
+                        id="contact-category"
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        className="contact-form-select">
+                        {categories.map((cat) => (
+                            <option key={cat.value} value={cat.value}>
+                                {cat.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
+            {/* Preferred Contact Method */}
+            <div className="mt-4">
+                <label className="contact-form-label">Preferred Contact Method</label>
+                <div className="contact-form-radio-group">
+                    {[
+                        { value: "email", label: "Email" },
+                        { value: "phone", label: "Phone" },
+                        { value: "both", label: "Either" }
+                    ].map((option) => (
+                        <label key={option.value} className="contact-form-radio">
+                            <input
+                                type="radio"
+                                name="preferredContact"
+                                value={option.value}
+                                checked={formData.preferredContact === option.value}
+                                onChange={handleChange}
+                                className="contact-form-radio-input"
+                            />
+                            <span className="contact-form-radio-label">{option.label}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            {/* Message */}
             <div className="mt-4">
                 <Textarea
                     label="Message"
@@ -384,15 +451,32 @@ function ContactFormInline() {
                 />
             </div>
 
-            <div className="mt-6 flex items-center gap-4">
+            {/* Newsletter Checkbox */}
+            <div className="mt-4">
+                <label className="contact-form-checkbox">
+                    <input
+                        type="checkbox"
+                        name="subscribe"
+                        checked={formData.subscribe}
+                        onChange={handleChange}
+                        className="contact-form-checkbox-input"
+                    />
+                    <span className="contact-form-checkbox-label">
+                        Subscribe to our newsletter for exclusive offers and updates
+                    </span>
+                </label>
+            </div>
+
+            {/* Submit Button */}
+            <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3">
                 <Button
                     type="submit"
                     variant="accent"
                     size="lg"
-                    className="contact-form-submit"
+                    className="contact-form-submit w-full sm:w-auto"
                     disabled={status === "sending"}>
                     {status === "sending" ? (
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center justify-center gap-2">
                             <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
                                 <circle
                                     className="opacity-25"
@@ -411,7 +495,7 @@ function ContactFormInline() {
                             Sending...
                         </span>
                     ) : status === "sent" ? (
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center justify-center gap-2">
                             <svg
                                 className="w-4 h-4"
                                 fill="none"
@@ -440,18 +524,56 @@ function ContactFormInline() {
                     </motion.span>
                 )}
             </div>
+
+            {/* Form Note */}
+            <p className="text-xs text-gray-400 mt-4">
+                We respect your privacy. Your information will only be used to respond to your
+                inquiry.
+            </p>
         </motion.form>
     );
 }
 
 export default function ContactSection() {
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const sectionRef = useRef(null);
+    const glowRef = useRef(null);
 
     useEffect(() => {
-        const handleMouseMove = (e) => setMousePos({ x: e.clientX, y: e.clientY });
+        let frame = 0;
+        let nextX = 0;
+        let nextY = 0;
+
+        const apply = () => {
+            frame = 0;
+            const glow = glowRef.current;
+            if (glow) {
+                glow.style.transform = `translate3d(${nextX - 192}px, ${nextY - 192}px, 0)`;
+            }
+        };
+
+        const handleMouseMove = (e) => {
+            const section = sectionRef.current;
+            if (!section) return;
+            const rect = section.getBoundingClientRect();
+            if (
+                e.clientX >= rect.left &&
+                e.clientX <= rect.right &&
+                e.clientY >= rect.top &&
+                e.clientY <= rect.bottom
+            ) {
+                nextX = e.clientX;
+                nextY = e.clientY;
+                // Coalesce moves into a single paint per frame instead of
+                // re-rendering React on every mousemove event.
+                if (!frame) frame = requestAnimationFrame(apply);
+            }
+        };
+
         window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            if (frame) cancelAnimationFrame(frame);
+        };
     }, []);
 
     return (
@@ -477,7 +599,6 @@ export default function ContactSection() {
 
                     <h1 className="h1-stack" style={{ color: "var(--cream)" }}>
                         GET IN
-                        <br />
                         <span className="muted" style={{ color: "var(--amber)" }}>
                             TOUCH
                         </span>
@@ -614,12 +735,11 @@ export default function ContactSection() {
 
             {/* Mouse follow glow (desktop only) */}
             <div
+                ref={glowRef}
                 className="contact-mouse-glow"
-                style={{
-                    left: `${mousePos.x - 192}px`,
-                    top: `${mousePos.y - 192}px`
-                }}
+                style={{ left: 0, top: 0, pointerEvents: "none", willChange: "transform" }}
             />
         </div>
     );
 }
+ 

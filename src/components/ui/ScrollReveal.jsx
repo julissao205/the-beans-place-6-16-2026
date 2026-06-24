@@ -20,6 +20,7 @@ export default function ScrollReveal({
     amount = 0.2,
     className,
     as = "div",
+    initialVisible = false,
     ...props
 }) {
     const ref = useRef(null);
@@ -27,12 +28,13 @@ export default function ScrollReveal({
     const preset = presets[animation] || presets.fadeUp;
 
     const Component = motion.create(as);
+    const shouldBeVisible = initialVisible || isInView;
 
     return (
         <Component
             ref={ref}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
+            initial={initialVisible ? "visible" : "hidden"}
+            animate={shouldBeVisible ? "visible" : "hidden"}
             variants={preset}
             transition={{
                 duration,
