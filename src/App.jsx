@@ -57,17 +57,18 @@ import HeroSection from "./components/HeroSection";
 import NavBar from "./components/NavBar";
 import FooterSection from "./components/FooterSection";
 import ContactSection from "./components/ContactSection";
-import ContactForm from "./components/ContactForm";
 import RibbonTicker from "./components/RibbonTicker";
-import { Ribbon } from "lucide-react";
 import ProductShowcase from "./components/ProductShowcase";
 import FeaturesSection from "./components/FeaturesSection";
 import CtaSection from "./components/CtaSection";
 import AboutSection from "./components/AboutSection";
+import ScrollingCoffeePour from "./components/ui/ScrollingCoffeePour";
 
 export default function App() {
     return (
         <div className="app">
+            <ScrollingCoffeePour />
+
             {/* NAVBAR */}
             <NavBar />
             {/* HERO */}
@@ -76,7 +77,7 @@ export default function App() {
                     <HeroSection />
                 </div>
             </section>
-            
+
             <RibbonTicker />
             {/* FEATURES / CAROUSEL */}
             <section className="features bg-featrues" id="shop">
