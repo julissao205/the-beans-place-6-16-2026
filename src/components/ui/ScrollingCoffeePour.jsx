@@ -20,15 +20,21 @@ export default function ScrollingCoffeePour() {
         };
     }, []);
 
-    const streamHeight = `${Math.min(86, 16 + scrollProgress * 70)}vh`;
-    const leftTilt = `${scrollProgress * 90}deg`;
-    const rightTilt = `${-scrollProgress * 90}deg`;
-    const mugScale = 0.6 + scrollProgress * 0.02;
+    const easedProgress = Math.min(1, scrollProgress ** 1.2);
+    const streamHeight = `${Math.min(86, 8 + easedProgress * 78)}vh`;
+    const streamWidth = `${10 + easedProgress * 8}px`;
+    const leftTilt = `${easedProgress * 86}deg`;
+    const rightTilt = `${-easedProgress * 86}deg`;
+    const mugScale = 0.6 + easedProgress * 0.02;
     const mugVisibility = 1;
     const streamVisibility = scrollProgress > 0.01 ? 1 : 0;
-    const streamTopOffset = 112 + scrollProgress * 28;
-    const streamLeftOffset = 62 + scrollProgress * 2;
-    const streamRightOffset = 62 + scrollProgress * 2;
+    const streamTopOffset = 104 + easedProgress * 40;
+    const streamLeftOffset = 61;
+    const streamRightOffset = 61;
+    const streamTilt = "0deg";
+    const streamGlow = 0.24 + easedProgress * 0.16;
+    const streamOpacity = 0.96 + easedProgress * 0.24;
+    const streamScaleY = 0.94 + easedProgress * 0.1 + Math.sin(easedProgress * Math.PI) * 0.02;
 
     return (
         <div className="coffee-scene" aria-hidden="true">
@@ -50,18 +56,24 @@ export default function ScrollingCoffeePour() {
                 className="coffee-stream coffee-stream-left"
                 style={{
                     height: streamHeight,
-                    opacity: streamVisibility,
+                    width: streamWidth,
+                    opacity: streamVisibility * streamOpacity,
                     top: `${streamTopOffset}px`,
-                    left: `${streamLeftOffset}px`
+                    left: `${streamLeftOffset}px`,
+                    transform: `rotate(${streamTilt}) scaleY(${streamScaleY})`,
+                    boxShadow: `0 0 ${18 + streamGlow * 16}px rgba(95, 44, 17, ${0.18 + streamGlow * 0.16})`
                 }}
             />
             <div
                 className="coffee-stream coffee-stream-right"
                 style={{
                     height: streamHeight,
-                    opacity: streamVisibility,
+                    width: streamWidth,
+                    opacity: streamVisibility * streamOpacity,
                     top: `${streamTopOffset}px`,
-                    right: `${streamRightOffset}px`
+                    right: `${streamRightOffset}px`,
+                    transform: `rotate(${streamTilt}) scaleY(${streamScaleY})`,
+                    boxShadow: `0 0 ${18 + streamGlow * 16}px rgba(95, 44, 17, ${0.18 + streamGlow * 0.16})`
                 }}
             />
         </div>

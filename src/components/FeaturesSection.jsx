@@ -165,12 +165,12 @@ function ImageRow({ images, offset = 0 }) {
         <div className="carousel-row" style={{ transform: `translate3d(${offset}px, 0,0)` }}>
             {doubled.map((src, index) => (
                 <div className="carousel-card" key={`${index}`}>
-                <img
-                    src={src}
-                    alt={`Coffee Bag ${(index % images.length) + 1}`}
-                    className="carousel-image"
-                    loading="lazy"
-                />
+                    <img
+                        src={src}
+                        alt={`Coffee Bag ${(index % images.length) + 1}`}
+                        className="carousel-image"
+                        loading="lazy"
+                    />
                 </div>
             ))}
         </div>
@@ -208,7 +208,7 @@ export default function FeaturesSection() {
 
     return (
         <section className="carousel-gallery-section" ref={sectionRef}>
-            <div className="carousel-galler-container">
+            <div className="carousel-gallery-container">
                 <ImageRow images={row1} offset={offsets[0]} />
                 <ImageRow images={row2} offset={offsets[1]} />
                 <ImageRow images={row3} offset={offsets[2]} />

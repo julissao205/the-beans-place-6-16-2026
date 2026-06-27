@@ -212,14 +212,14 @@ function LocationMap() {
 export default function FooterSection() {
     return (
         <footer className="footer">
-            <div className="mx-auto max-w-7xl px-6 pb-8 sm:pt-24 lg:px-8 lg:pt-32 2xl max-w-400">
+            <div className="footer-inner pb-8 sm:pt-24 lg:pt-32">
                 {/* Map */}
                 <ScrollReveal animation="fadeUp">
                     <LocationMap />
                 </ScrollReveal>
 
                 {/* Footer Columns */}
-                <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+                <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
                     <ScrollReveal animation="fadeUp" className="col-span-2 md:col-span-1 space-y-4">
                         <img
                             alt="The Beans Place Logo"
