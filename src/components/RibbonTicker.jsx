@@ -88,21 +88,24 @@ export default function RibbonTicker() {
     ];
     
     const items = [...blends, ...blends ];
+    const MotionSpan = motion.span;
     
     return(
-        <div className="ribbon-ticker-container">
-            <div className="ribbon-ticker">
-                <div className="ribbon-track">
-                    { items.map((name, i) => (
-                        <motion.span
-                            key={i}
-                            className="ribbon-item"
-                            whileHover={{ scale: 1.1, color: "#f0b9555" }}
-                            transition={{ type: "spring", stiffness: 300}}
-                        >
-                            {name} <span className="ribbon-dot">+</span>
-                        </motion.span>
-                    ))}
+        <div className="ribbon-ticker-section">
+            <div className="ribbon-ticker-container">
+                <div className="ribbon-ticker">
+                    <div className="ribbon-track">
+                        { items.map((name, i) => (
+                            <MotionSpan
+                                key={i}
+                                className="ribbon-item"
+                                whileHover={{ scale: 1.1, color: "#f0b9555" }}
+                                transition={{ type: "spring", stiffness: 300}}
+                            >
+                                {name} <span className="ribbon-dot">+</span>
+                            </MotionSpan>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

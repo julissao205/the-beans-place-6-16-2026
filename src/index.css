@@ -29,6 +29,7 @@
     --grad-dark: linear-gradient(180deg, var(--brown-800) 0%, var(--espresso) 100%);
     --grad-section: linear-gradient(180deg, var(--brown-700) 0%, var(--brown-900) 100%);
     --grad-footer: linear-gradient(180deg, var(--brown-900) 0%, #0d0a08 100%);
+    --feature-ribbon-bg: var(--grad-section);
 
     /* Effects */
     --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.08);
@@ -222,7 +223,7 @@ a {
 }
 
 .bg-features {
-    background: linear-gradient(180deg, #d4c4b0 0%, var(--brown-700) 100%);
+    background: var(--feature-ribbon-bg);
 }
 
 .bg-cta {
@@ -470,7 +471,26 @@ a {
     position: relative;
     box-sizing: border-box;
     isolation: isolate;
-    background: var(--grad-section);
+    background: var(--feature-ribbon-bg);
+    --carousel-edge-hide: 100px;
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        transparent var(--carousel-edge-hide),
+        #000 var(--carousel-edge-hide),
+        #000 calc(100% - var(--carousel-edge-hide)),
+        transparent calc(100% - var(--carousel-edge-hide)),
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        transparent var(--carousel-edge-hide),
+        #000 var(--carousel-edge-hide),
+        #000 calc(100% - var(--carousel-edge-hide)),
+        transparent calc(100% - var(--carousel-edge-hide)),
+        transparent 100%
+    );
 }
 
 .carousel-gallery-container {
@@ -1392,10 +1412,15 @@ a {
 
 /* ═══════════ Ribbon Ticker ═══════════ */
 
+.ribbon-ticker-section {
+    width: 100%;
+    background: var(--feature-ribbon-bg);
+}
+
 .ribbon-ticker {
     width: 100%;
     overflow: hidden;
-    background: var(--grad-section);
+    background: var(--feature-ribbon-bg);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding: 14px 0;
@@ -1405,7 +1430,7 @@ a {
 .ribbon-track {
     display: flex;
     width: max-content;
-    max-width: min(var(--container), calc(100vw - 18.125rem));
+    max-width: min(var(--container), calc(100vw - 13.375rem));
     margin: 0 auto;
     animation: ribbon-scroll 35s linear infinite;
 }
@@ -1414,12 +1439,12 @@ a {
     overflow: hidden;
     position: relative;
     width: 100%;
-    max-width: min(var(--container), calc(100vw - 18.125rem));
+    max-width: min(var(--container), calc(100vw - 13.375rem));
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
     isolation: isolate;
-    background: var(--grad-section);
+    background: var(--feature-ribbon-bg);
 }
 
 .ribbon-ticker-container::before {

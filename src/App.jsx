@@ -80,7 +80,7 @@ export default function App() {
 
             <RibbonTicker />
             {/* FEATURES / CAROUSEL */}
-            <section className="features bg-featrues" id="shop">
+            <section className="features bg-features" id="shop">
                 <FeaturesSection />
             </section>
             {/* PRODUCT SHOWCASE */}
